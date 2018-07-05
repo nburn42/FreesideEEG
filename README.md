@@ -17,9 +17,10 @@ Here is a sample training run
 ![Histograms](assets/histograms.png?raw=true "Histograms")
 
 
+<pre>```
 /usr/bin/python3.6 /home/nburn42/FreesideEEG/classic_train.py
-Parsing files: ['TrainingData/eegdataTrain.data']
-Parsing files: ['TestData/eegdataTest.data']
+Parsing files: 'TrainingData/eegdataTrain.data'
+Parsing files: 'TestData/eegdataTest.data'
 Training Data size: 343
 Test Data size:     14
 Training Sample label: 0.0 record len: 1920 data: [-0.2322498903681478, -0.1786831126435639, -0.20682014466010176, -0.20953366384758268, -0.13545340241287673, ... ...
@@ -144,4 +145,5 @@ test:     p[9.154158e-12 3.723779e-08 1.000000e+00] l1 d[-0.24808999617941718, 0
 test:     p[0.9961295  0.00270229 0.00116813] l1 d[-0.5676211257689656, -0.671304643715787, -0.615245739364888]
 test:     p[1.1779523e-05 6.2716043e-07 9.9998760e-01] l1 d[-0.5637256455251425, -0.6057433339858748, -0.6217417155597692]
 test:    *p[6.2105187e-07 3.4886758e-05 9.9996448e-01] l2 d[-0.5316670940947386, -0.6161653143955358, -0.5846998773216535]
-Finished training at step 3000.
+Finished training at step 3000.   
+```</pre>
