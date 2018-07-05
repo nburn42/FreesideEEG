@@ -20,8 +20,8 @@ BATCH_SIZE = 80
 continue_training = os.path.isdir(TENSORBOARD_LOGDIR)
 
 # get dataset
-train_data, mean, std = eeg_data_util.slice_folder(data_train_path, plot_tag="Training Data ", plot=True)
-test_data, _, _ = eeg_data_util.slice_folder(data_test_path, mean, std, plot_tag="Test Data ", plot=True)
+train_data, mean, std = eeg_data_util.slice_folder(data_train_path, plot_tag="Training Data ", plot=False)
+test_data, _, _ = eeg_data_util.slice_folder(data_test_path, mean, std, plot_tag="Test Data ", plot=False)
 
 print("Training Data size:", len(train_data))
 print("Test Data size:    ", len(test_data))

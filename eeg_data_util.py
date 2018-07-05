@@ -183,14 +183,14 @@ def slice_file_list(filename_list, mean=None, std=None, plot_tag="", plot=False)
         plt.title(plot_tag + "Unnormalized vs Freq bin")
         plt.xlabel("Value")
         plt.ylabel("Freq bin & Channel")
-        for i in range(0, len(data)):
+        for i in range(0, len(data), 30):
             plt.scatter(range(len(data[i])), data[i], marker=".")
         plt.show()
 
         plt.title(plot_tag + "Unnormalized vs Time")
         plt.xlabel("Value")
         plt.ylabel("Time")
-        for i in range(0, len(data[0])):
+        for i in range(0, len(data[0]), 30):
             plt.scatter(range(len(data)), [x[i] for x in data], marker=".")
         plt.show()
 
@@ -203,14 +203,14 @@ def slice_file_list(filename_list, mean=None, std=None, plot_tag="", plot=False)
         plt.title(plot_tag + "Normalized vs Freq bin")
         plt.xlabel("Value")
         plt.ylabel("Freq bin & Channel")
-        for i in range(0, len(data)):
+        for i in range(0, len(data), 30):
             plt.scatter(range(len(data[i])), data[i], marker=".")
         plt.show()
 
         plt.title(plot_tag + "Normalized vs Time")
         plt.xlabel("Value")
         plt.ylabel("Time")
-        for i in range(0, len(data[0])):
+        for i in range(0, len(data[0]), 30):
             plt.scatter(range(len(data)), [x[i] for x in data], marker=".")
         plt.show()
 
