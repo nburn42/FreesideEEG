@@ -7,7 +7,7 @@
 The eeg data must be a file where each line is a record.    
 The record is a list of frequency bin values for each channel follwed by an integer label.    
 Each record  begins with a `[` and ends with a `]`.     
-Each value is separated by `", "`.
+Each value is separated by `", "`.     
 Each record is on its own line.    
 
 
