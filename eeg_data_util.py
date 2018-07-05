@@ -3,10 +3,10 @@ import os
 import numpy as np
 # import matplotlib.pyplot as plt
 
-CHANNELS = 4
-FREQ_BINS = 120
-MAX_STD = 3
-SLICE_SIZE = 4
+CHANNELS = 4 # The number of eeg channels in the recordings
+FREQ_BINS = 120 # The number of freq bins per channel
+MAX_STD = 3 # The max stnadard deviation to crop outliers to
+SLICE_SIZE = 4 # The number of samples the network will look at at once to make a prediction
 
 
 def parse_file_list(filename_list):

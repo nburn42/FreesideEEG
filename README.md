@@ -6,7 +6,8 @@
 
 The eeg data must be a file where each line is a record.    
 The record is a list of frequency bin values for each channel follwed by an integer label.    
-Each record  begins with a `[` and ends with a `]`.    
+Each record  begins with a `[` and ends with a `]`.     
+Each value is separated by `", "`.
 Each record is on its own line.    
 
 
@@ -107,7 +108,7 @@ This folder is ignored from git so that the large files do not get checked in. T
 ### Sample Training Run
 
 Note: The sample run was run on an extremely small number of samples and was overtrained.  
-Both issues will be fixed the following is just a proof of concept.
+Both issues will be fixed, the following is just a proof of concept.
 
 ![Accuracy and Loss](assets/loss_accuracy.png?raw=true "Accuracy and Loss")    
 ![Distributions](assets/distributions.png?raw=true "Distributions")    
