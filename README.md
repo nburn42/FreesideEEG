@@ -62,13 +62,13 @@ The network also has an l2 regularizer on the weights that should be removed whe
 
 ##### BATCH_SIZE
 Batch size is defined at the top of `classic_train.py`.    
-It should be `no less than 50` and ideally should be the size of the batch the just barely fits into your GPU's memory.
+It should be `no less than 50` and ideally should be the size of the batch that just barely fits into your GPU's memory.
 
 The batch normalization is currently dependant on larger batches because batch renorm or other similar things are not enabled.
 
 ##### MAX_TRAIN_STEP
 
-Max Training Step is defined at the top od `classic_train.py`.    
+Max Training Step is defined at the top of `classic_train.py`.    
 This is the step at which the network will stop the current training run.    
 Fixed training steps are not always the best way to manage network training.   
 It is easy to modify the end condition or to make copies of the current network periodically or when new test scores are reached.    

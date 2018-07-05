@@ -1,7 +1,7 @@
 import os
 
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
 CHANNELS = 4
 FREQ_BINS = 120
@@ -111,19 +111,19 @@ def parse_file(filename):
 
 def slice_folder(folder_path):
     """
-        Takes an eeg data filename list and normalizes each row
-        It combines each SLICE_SIZE number of recordings into a single network input
-        Data and Labels are ready to be ingested by the network
-        return looks like this
-        [([0.2, 0.6, 0.1], 0.0), ([0.2, 0.6, 0.1], 0.0), ([0.2, 0.6, 0.1], 2.0), ([0.2, 0.6, 0.1], 1.0), ([0.2, 0.6, 0.1], 1.0), ([0.2, 0.6, 0.1], 2.0)]
+    Takes an eeg data filename list and normalizes each row
+    It combines each SLICE_SIZE number of recordings into a single network input
+    Data and Labels are ready to be ingested by the network
+    return looks like this
+    [([0.2, 0.6, 0.1], 0.0), ([0.2, 0.6, 0.1], 0.0), ([0.2, 0.6, 0.1], 2.0), ([0.2, 0.6, 0.1], 1.0), ([0.2, 0.6, 0.1], 1.0), ([0.2, 0.6, 0.1], 2.0)]
 
-        :param folder: path of folder of eeg data
-        :type folder: str
-        :return: tuple (data, label)
-            WHERE
-            list of float data is a list of (chunks of recordings)
-            list of int   label is a list of (labels) for each chunk of recordings
-        """
+    :param folder: path of folder of eeg data
+    :type folder: str
+    :return: tuple (data, label)
+        WHERE
+        list of float data is a list of (chunks of recordings)
+        list of int   label is a list of (labels) for each chunk of recordings
+    """
     filename_list = [folder_path + "/" + x for x in os.listdir(folder_path)]
     print("Parsing files:", filename_list)
     return slice_file_list(filename_list)
