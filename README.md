@@ -1,23 +1,54 @@
 # FreesideEEG
 
+## The Data
+
+### Data Specification
+
+The eeg data must be a file where each line is a record.    
+The record is a list of frequency bin values for each channel follwed by an integer label.    
+Each record  begins with a `[` and ends with a `]`.    
+Each record is on its own line.    
+
+
+The meaning of the label can be anything.    
+The sampling rate can be anything.
+
+
+### Loading the Data
+
+The data must be loaded into the `TestData` and `TrainingData` folders.    
+The folders can be changed in `classic_training.py`    
+The data must have there rows where the circular buffer is not filled removed.  
+Any number of data files can be added to the test and training folders.
+
+![Data Location](assets/data_location.png?raw=true "Data Location")    
+
+
+### Specifying data parameters
+
+The file `eeg_data_util.py` has a number of constanst that need to be adjusted if the data changes.    
+<pre>
+CHANNELS = 4 # The number of eeg channels in the recordings
+FREQ_BINS = 120 # The number of freq bins per channel
+MAX_STD = 3 # The max stnadard deviation to crop outliers to
+SLICE_SIZE = 4 # The number of samples the network will look at at once to make a prediction
+</pre>
+
+## Running the Network
 
 
 
 
 
 
+### Sample Training Run
+
+![Accuracy and Loss](assets/loss_accuracy.png?raw=true "Accuracy and Loss")    
+![Distributions](assets/distributions.png?raw=true "Distributions")    
+![Histograms](assets/histograms.png?raw=true "Histograms")    
 
 
-
-
-Here is a sample training run
-
-![Accuracy and Loss](assets/loss_accuracy.png?raw=true "Accuracy and Loss")
-![Distributions](assets/distributions?raw=true "Distributions")
-![Histograms](assets/histograms.png?raw=true "Histograms")
-
-
-<pre>```
+<pre>
 /usr/bin/python3.6 /home/nburn42/FreesideEEG/classic_train.py
 Parsing files: 'TrainingData/eegdataTrain.data'
 Parsing files: 'TestData/eegdataTest.data'
@@ -146,4 +177,4 @@ test:     p[0.9961295  0.00270229 0.00116813] l1 d[-0.5676211257689656, -0.67130
 test:     p[1.1779523e-05 6.2716043e-07 9.9998760e-01] l1 d[-0.5637256455251425, -0.6057433339858748, -0.6217417155597692]
 test:    *p[6.2105187e-07 3.4886758e-05 9.9996448e-01] l2 d[-0.5316670940947386, -0.6161653143955358, -0.5846998773216535]
 Finished training at step 3000.   
-```</pre>
+</pre>
