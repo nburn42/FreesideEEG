@@ -20,15 +20,15 @@ BATCH_SIZE = 80
 continue_training = os.path.isdir(TENSORBOARD_LOGDIR)
 
 # get dataset
-train_data = list(eeg_data_util.slice_folder(data_train_path))
-test_data = list(eeg_data_util.slice_folder(data_test_path))
+train_data, mean, std = eeg_data_util.slice_folder(data_train_path, plot_tag="Training Data ", plot=True)
+test_data, _, _ = eeg_data_util.slice_folder(data_test_path, mean, std, plot_tag="Test Data ", plot=True)
 
 print("Training Data size:", len(train_data))
 print("Test Data size:    ", len(test_data))
 training_sample = random.choice(train_data)
 test_sample = random.choice(test_data)
 print("Training Sample", "label:", training_sample[1], "record len:", len(training_sample[0]), "data:", training_sample[0])
-print("Test Sample    ",  "label:", test_sample[1], "record len:", len(test_sample[0]), "data:", test_sample[0])
+print("Test Sample    ", "label:", test_sample[1], "record len:", len(test_sample[0]), "data:", test_sample[0])
 
 # create model
 (input_placeholder, label_placeholder, training_placeholder,

@@ -35,7 +35,7 @@ SLICE_SIZE = 4 # The number of samples the network will look at at once to make 
 </pre>
 
 
-### Sharing data
+### Sharing Data
 
 Because the data files are large the training and test folder are in the git ignore. the best way to share the data is to zip it and send it over google drive.
 
