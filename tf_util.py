@@ -1,10 +1,13 @@
+import numpy as np
+
 import tensorflow as tf
 import random
 import shutil, errno
 
+
 def get_accuracy_op(logits, labels):
-    correct_prediction = tf.equal(tf.cast(tf.round(logits), tf.int64), tf.cast(labels, tf.int64))
-    accuracy_op = tf.reduce_mean(tf.cast(correct_prediction, "float"))
+    correct_prediction = tf.equal(tf.cast(tf.argmax(logits, 1), tf.int32), labels)
+    accuracy_op = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
     return accuracy_op
 
 
@@ -21,5 +24,10 @@ def copyRecursive(src, dst):
             shutil.copy(src, dst)
         else: raise
 
+
 def get_shape_list(tensor):
     return [dim.value for dim in tensor.get_shape()]
+
+
+def is_correct(prediction, label):
+    return np.argmax(prediction) == label

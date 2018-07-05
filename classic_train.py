@@ -12,6 +12,8 @@ from tf_util import copyRecursive, get_batch
 data_train_path = "TrainingData"
 data_test_path = "TestData"
 TENSORBOARD_LOGDIR = "FreesideEegModelDir"
+MAX_TRAIN_STEP = 3000
+BATCH_SIZE = 80
 
 # delete the model directory to restart training
 # otherwise it will continue training
@@ -25,8 +27,8 @@ print("Training Data size:", len(train_data))
 print("Test Data size:    ", len(test_data))
 training_sample = random.choice(train_data)
 test_sample = random.choice(test_data)
-print("Training Sample", "label:", training_sample[1], "data len:", len(training_sample[0]), "data:", training_sample[0])
-print("Test Sample    ",  "label:", test_sample[1], "data len:", len(test_sample[0]), "data:", test_sample[0])
+print("Training Sample", "label:", training_sample[1], "record len:", len(training_sample[0]), "data:", training_sample[0])
+print("Test Sample    ",  "label:", test_sample[1], "record len:", len(test_sample[0]), "data:", test_sample[0])
 
 # create model
 (input_placeholder, label_placeholder, training_placeholder,
@@ -62,7 +64,7 @@ with tf.Session() as sess:
         sess.run(tf.global_variables_initializer())
         print("Starting new training ")
 
-    while step_count < 99999:
+    while step_count < MAX_TRAIN_STEP:
         step_count += 1
 
         with open(TENSORBOARD_LOGDIR + "/step.json", "w") as f:
@@ -71,7 +73,7 @@ with tf.Session() as sess:
         if step_count % 10 == 0:
             print("step ", step_count)
 
-        batch_training_data, batch_training_labels = get_batch(train_data, 20)
+        batch_training_data, batch_training_labels = get_batch(train_data, BATCH_SIZE)
 
         # train network
         training_accuracy, training_logits, training_loss, summary, _ = sess.run(
@@ -84,9 +86,9 @@ with tf.Session() as sess:
         training_summary_writer.add_summary(summary, step_count)
 
         # every x steps check accuracy
-        if step_count % 50 == 0:
+        if step_count % 150 == 0:
 
-            batch_test_data, batch_test_labels = get_batch(test_data, 20)
+            batch_test_data, batch_test_labels = get_batch(test_data, min(BATCH_SIZE, len(test_data)))
             test_accuracy, test_logits, test_loss, summary = sess.run(
                 [accuracy_tensor, logits_tensor, loss_tensor, summary_tensor],
                 feed_dict={input_placeholder: batch_test_data,
@@ -103,12 +105,14 @@ with tf.Session() as sess:
             for i, (prediction, data, label) in enumerate(zip(training_logits, batch_training_data, batch_training_labels)):
                 if i > 5:
                     break
-                print("training: p", prediction, "l", label, "d", data[:10])
+                is_correct = "*" if tf_util.is_correct(prediction, label) else " "
+                print("training:{}p{} l{:.0f} d{}".format(is_correct, prediction, label, data[:3]))
 
             for i, (prediction, data, label) in enumerate(zip(test_logits, batch_test_data, batch_test_labels)):
                 if i > 5:
                     break
-                print("test:     p", prediction, "l", label, "d", data[:10])
+                is_correct = "*" if tf_util.is_correct(prediction, label) else " "
+                print("test:    {}p{} l{:.0f} d{}".format(is_correct, prediction, label, data[:3]))
 
             save_path = saver.save(sess, TENSORBOARD_LOGDIR + "/model.ckpt")
 

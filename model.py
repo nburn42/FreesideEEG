@@ -18,8 +18,8 @@ def basic_model(channel_count, freq_bin_count, slice_size, layer_count, layer_ne
                                         shape=(),
                                         name="training_placeholder")
 
-
     current_layer = input_placeholder
+    current_layer = tf.layers.batch_normalization(current_layer, training=is_training_placeholder)
 
     print("input layer:", current_layer)
 
@@ -28,10 +28,14 @@ def basic_model(channel_count, freq_bin_count, slice_size, layer_count, layer_ne
         # fully connected -> BN -> Relu -> Dropout
         layer_parameter_count = tf_util.get_shape_list(current_layer)[-1] * layer_neuron_count
         parameter_count += layer_parameter_count
-        current_layer = tf.layers.dense(current_layer, units=layer_neuron_count ,activation=None, )
+        current_layer = tf.layers.dense(current_layer,
+                                        units=layer_neuron_count,
+                                        activation=None,
+                                        kernel_regularizer=tf.contrib.layers.l2_regularizer(scale=0.005),
+                                        kernel_constraint=tf.keras.constraints.MaxNorm())
         current_layer = tf.layers.batch_normalization(current_layer, training=is_training_placeholder)
         current_layer = tf.nn.leaky_relu(current_layer)
-        current_layer = tf.layers.dropout(current_layer, 0.7, training=is_training_placeholder)
+        current_layer = tf.layers.dropout(current_layer, 0.3, training=is_training_placeholder)
         print("hidden layer ({} parameters): {}".format(layer_parameter_count, current_layer))
 
     # Logits Layer
@@ -39,8 +43,10 @@ def basic_model(channel_count, freq_bin_count, slice_size, layer_count, layer_ne
     parameter_count += layer_parameter_count
     logits = tf.layers.dense(inputs=current_layer, units=class_count)
 
-    labels_reshaped = tf.reshape(label_placeholder, [-1, 1])
-    loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(labels=labels_reshaped, logits=logits))
+    # labels_reshaped = tf.reshape(label_placeholder, [-1, 1])
+    loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(
+        labels=tf.one_hot(label_placeholder, class_count),
+        logits=logits))
 
     prediction = tf.nn.softmax(logits, name="prediction")
 
@@ -56,7 +62,7 @@ def basic_model(channel_count, freq_bin_count, slice_size, layer_count, layer_ne
         train_op = optimizer.minimize(
             loss=loss, global_step=tf.train.get_global_step())
 
-    accuracy = tf_util.get_accuracy_op(prediction, labels_reshaped)
+    accuracy = tf_util.get_accuracy_op(prediction, label_placeholder)
 
     # tensorboard summaries
     tf.summary.histogram("input", input_placeholder)

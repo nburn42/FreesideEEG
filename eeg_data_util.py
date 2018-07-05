@@ -1,11 +1,10 @@
 import os
 
 import numpy as np
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 CHANNELS = 4
 FREQ_BINS = 120
-START_CUT = 50
 MAX_STD = 3
 SLICE_SIZE = 4
 
@@ -48,9 +47,9 @@ def parse_file(filename):
         columns = [[] for x in range(CHANNELS * FREQ_BINS)]
 
         for ind, line in enumerate(f):
-            # remove first 50 time steps twhere filter is filling up
-            if ind < START_CUT:
-                continue
+            # # remove first 50 time steps twhere filter is filling up
+            # if ind < START_CUT:
+            #     continue
             #remove brakets
             line = line.strip()[1:-1]
             #cut up and format
@@ -97,13 +96,13 @@ def parse_file(filename):
         # plt.scatter(range(len(columns)), maxs)
         # plt.scatter(range(len(columns))[:120], stds[:120])
 
-        # #plot x as time samples
+        # # plot x as time samples
         # for i in range(0, 120, 10):
         #     for j in range(4):
         #         plt.scatter(range(len(actual_data[0])), actual_data[i + (j * 120)])
 
         # # plot x as freq bins
-        # for i in range(0, 1400, 100):
+        # for i in range(0, len(actual_data_rows), 20):
         #     plt.scatter(range(len(actual_data_rows[0])), actual_data_rows[i])
         #
         # plt.show()
