@@ -18,7 +18,7 @@ The sampling rate can be anything.
 
 The data must be loaded into the `TestData` and `TrainingData` folders.    
 The folders can be changed in `classic_training.py`    
-The data must have there rows where the circular buffer is not filled removed.  
+The data must have the records where the circular buffer is not yet filled removed before running the network.  
 Any number of data files can be added to the test and training folders.
 
 ![Data Location](assets/data_location.png?raw=true "Data Location")    
