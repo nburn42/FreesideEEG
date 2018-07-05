@@ -23,7 +23,6 @@ Any number of data files can be added to the test and training folders.
 
 ![Data Location](assets/data_location.png?raw=true "Data Location")    
 
-
 ### Specifying data parameters
 
 The file `eeg_data_util.py` has a number of constanst that need to be adjusted if the data changes.    
@@ -34,14 +33,81 @@ MAX_STD = 3 # The max stnadard deviation to crop outliers to
 SLICE_SIZE = 4 # The number of samples the network will look at at once to make a prediction
 </pre>
 
-## Running the Network
+
+### Sharing data
+
+Because the data files are large the training and test folder are in the git ignore. the best way to share the data is to zip it and send it over google drive.
+
+## The Neural Network
+
+### Network Model
+
+The network is defined in `model.py`.     
+Currently there is only a basic feed forward model.    
+This model has a number of hidden layers each with the same number of nodes.    
+Each layer is organized like this:
+* Dense Fully Connected Layer
+* Batch Normalization
+* Leaky RELU
+* Dropout
+
+The network uses the Adam optimizer because AdamW is not in the current version of tensorflow.    
+(It is in git in the contrib library but hasn't made it to the general public)
+
+The network also has an l2 regularizer on the weights that should be removed when the switch to Adamw is made.
+
+![Graph](assets/graph.png?raw=true "Graph")    
+
+### Parameters
+
+##### BATCH_SIZE
+Batch size is defined at the top of `classic_train.py`.    
+It should be `no less than 50` and ideally should be the size of the batch the just barely fits into your GPU's memory.
+
+The batch normalization is currently dependant on larger batches because batch renorm or other similar things are not enabled.
+
+##### MAX_TRAIN_STEP
+
+Max Training Step is defined at the top od `classic_train.py`.    
+This is the step at which the network will stop the current training run.    
+Fixed training steps are not always the best way to manage network training.   
+It is easy to modify the end condition or to make copies of the current network periodically or when new test scores are reached.    
+
+The training process can be killed anytime and generally everything is ok because the code saves regularly.    
+The code will also resume from any point if you do kill the job early.   
+This also allows you to set a max training step, then gradually keep increasing it and rerunning until you are happy with the network.
 
 
+### Running the Network
+
+A number of python packages will need to be installed in order to train the network.    
+I will be building a `requirements.txt` soon.    
+The code was written for python 3.6.    
+    
+Run training with the command `python classic_training.py`    
+Live eval code coming in the future
+
+### Loading Tensorboard
+
+1. Open a command line and navigate to `FreesideEEG` (Alternatively open the terminal tab in pycharm)
+2. Run `tensorboard --logdir FreesideEegModelDir` (Model directoy specified in `classic_training.py`)
+3. Open a browser and navigate to <a href="http://127.0.0.1:6006">http://127.0.0.1:6006</a>
 
 
+### Managing the Model Directory
 
+The code will continue training wherever the last model was saved if the folder `FreesideEegModelDir` exsists.    
+
+In order to start a new training run the folder must be deleted or renamed.    
+
+The folder contains the current weights of the network, the tensorboard data, and a small json file keeping track of the current training step.    
+
+This folder is ignored from git so that the large files do not get checked in. To share a trained model it should be zipped and sent over google drive.
 
 ### Sample Training Run
+
+Note: The sample run was run on an extremely small number of samples and was overtrained.  
+Both issues will be fixed the following is just a proof of concept.
 
 ![Accuracy and Loss](assets/loss_accuracy.png?raw=true "Accuracy and Loss")    
 ![Distributions](assets/distributions.png?raw=true "Distributions")    

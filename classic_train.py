@@ -86,7 +86,7 @@ with tf.Session() as sess:
         training_summary_writer.add_summary(summary, step_count)
 
         # every x steps check accuracy
-        if step_count % 150 == 0:
+        if step_count % 50 == 0:
 
             batch_test_data, batch_test_labels = get_batch(test_data, min(BATCH_SIZE, len(test_data)))
             test_accuracy, test_logits, test_loss, summary = sess.run(
