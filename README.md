@@ -23,9 +23,9 @@ Any number of data files can be added to the test and training folders.
 
 ![Data Location](assets/data_location.png?raw=true "Data Location")    
 
-### Specifying data parameters
+### Specifying Data Parameters
 
-The file `eeg_data_util.py` has a number of constanst that need to be adjusted if the data changes.    
+The file `eeg_data_util.py` has a number of constants that need to be adjusted if the data changes.    
 <pre>
 CHANNELS = 4 # The number of eeg channels in the recordings
 FREQ_BINS = 120 # The number of freq bins per channel
