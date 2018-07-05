@@ -73,7 +73,7 @@ def basic_model(channel_count, freq_bin_count, slice_size, layer_count, layer_ne
     tf.summary.scalar('loss', loss)
 
     print("*"*20)
-    print("Model has a total of {} parameters. Ideally the training side will be larger than the parameters".format(parameter_count))
+    print("Model has a total of {} parameters. Ideally the training data will be larger than the parameters".format(parameter_count))
     print("*"*40)
 
     return input_placeholder, label_placeholder, is_training_placeholder, prediction, accuracy, loss, train_op
